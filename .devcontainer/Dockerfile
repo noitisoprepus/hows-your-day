@@ -11,5 +11,10 @@ FROM mcr.microsoft.com/devcontainers/dotnet:1-8.0-bookworm
 RUN apt-get update && \
     apt-get install -y postgresql-client
 
-# Expose port
+EXPOSE 5022
 EXPOSE 5432
+
+# Install dotnet tools for vscode user
+USER vscode
+RUN dotnet tool install -g dotnet-ef
+ENV PATH $PATH:/root/.dotnet/tools
