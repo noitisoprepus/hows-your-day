@@ -35,7 +35,7 @@ namespace HowsYourDayAPI.Controllers
         [HttpPost]
         public async Task<ActionResult<Day>> PostDay(Day day)
         {
-            day.LogDate = DateTime.Now;
+            day.LogDate = DateTime.UtcNow;
             _context.Days.Add(day);
             await _context.SaveChangesAsync();
 
