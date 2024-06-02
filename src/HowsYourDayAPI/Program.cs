@@ -7,8 +7,11 @@ var builder = WebApplication.CreateBuilder(args);
 // Load environment variables from .env file
 Env.Load();
 
+// Build the connection string from environment variables
+var connectionString = $"Host=localhost;Port=5432;Database={Environment.GetEnvironmentVariable("POSTGRES_DB")};Username={Environment.GetEnvironmentVariable("POSTGRES_USER")};Password={Environment.GetEnvironmentVariable("POSTGRES_PASSWORD")}";
+builder.Configuration["ConnectionStrings:DefaultConnection"] = connectionString;
+
 // Add services to the container.
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -25,6 +28,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseAuthorization();
+
 app.MapControllers();
 
 app.Run();
