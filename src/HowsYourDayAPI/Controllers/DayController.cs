@@ -1,7 +1,6 @@
-using HowsYourDayAPI.Data;
 using HowsYourDayAPI.Models;
+using HowsYourDayAPI.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace HowsYourDayAPI.Controllers
 {
@@ -9,27 +8,25 @@ namespace HowsYourDayAPI.Controllers
     [Route("API/[controller]")]
     public class DayController : ControllerBase
     {
-        private readonly HowsYourDayAppDbContext _context;
+        private readonly IDayService _dayService;
 
-        public DayController(HowsYourDayAppDbContext context)
+        public DayController(IDayService dayService)
         {
-            _context = context;
+            _dayService = dayService;
         }
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Day>>> GetDays()
         {
-            return await _context.Days.ToListAsync();
+            var days = await _dayService.GetDaysAsync();
+            return Ok(days);
         }
 
         [HttpPost]
         public async Task<ActionResult<Day>> PostDay(Day day)
         {
-            day.LogDate = DateTime.UtcNow;
-            _context.Days.Add(day);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetDay", new { id = day.Id }, day);
+            var newDay = await _dayService.AddDayAsync(day);
+            return CreatedAtAction("GetDay", new { id = newDay.Id }, newDay);
         }
     }
 }

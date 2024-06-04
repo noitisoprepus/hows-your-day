@@ -1,5 +1,6 @@
 using DotNetEnv;
 using HowsYourDayAPI.Data;
+using HowsYourDayAPI.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -17,6 +18,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<HowsYourDayAppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddScoped<IDayService, DayService>();
+builder.Services.AddScoped<IUserService, UserService>();
 
 var app = builder.Build();
 

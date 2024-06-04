@@ -1,7 +1,6 @@
-using HowsYourDayAPI.Data;
 using HowsYourDayAPI.Models;
+using HowsYourDayAPI.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace HowsYourDayAPI.Controllers
 {
@@ -9,37 +8,34 @@ namespace HowsYourDayAPI.Controllers
     [Route("API/[controller]")]
     public class UserController : ControllerBase
     {
-        private readonly HowsYourDayAppDbContext _context;
+        private readonly IUserService _userService;
 
-        public UserController(HowsYourDayAppDbContext context)
+        public UserController(IUserService userService)
         {
-            _context = context;
+            _userService = userService;
         }
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<User>>> GetUsers()
         {
-            return await _context.Users.ToListAsync();
+            var users = await _userService.GetUsersAsync();
+            return Ok(users);
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<User>> GetUser(int id)
         {
-            var user = await _context.Users.FindAsync(id);
+            var user = await _userService.GetUserAsync(id);
             if (user == null)
                 return NotFound();
-            
             return user;
         }
 
         [HttpPost]
         public async Task<ActionResult<User>> PostUser(User user)
         {
-            user.CreationDate = DateTime.UtcNow;
-            _context.Users.Add(user);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetUser", new { id = user.Id }, user);
+            var newUser = await _userService.PostUserAsync(user);
+            return CreatedAtAction("GetUser", new { id = newUser.Id }, newUser);
         }
 
         [HttpPut("{id}")]
@@ -47,18 +43,14 @@ namespace HowsYourDayAPI.Controllers
         {
             if (id != user.Id)
                 return BadRequest();
-            
-            _context.Entry(user).State = EntityState.Modified;
+
             try
             {
-                await _context.SaveChangesAsync();
+                await _userService.PutUserAsync(user);
             }
-            catch (DbUpdateConcurrencyException)
+            catch (KeyNotFoundException)
             {
-                if (!UserExists(id))
-                    return NotFound();
-                else
-                    throw;
+                return NotFound();
             }
 
             return NoContent();
@@ -67,19 +59,16 @@ namespace HowsYourDayAPI.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteUser(int id)
         {
-            var user = await _context.Users.FindAsync(id);
-            if (user == null)
+            try
+            {
+                await _userService.DeleteUserAsync(id);
+            }
+            catch (KeyNotFoundException)
+            {
                 return NotFound();
-
-            _context.Users.Remove(user);
-            await _context.SaveChangesAsync();
+            }
 
             return NoContent();
-        }
-
-        private bool UserExists(int id)
-        {
-            return _context.Users.Any(user => user.Id == id);
         }
     }
 }
