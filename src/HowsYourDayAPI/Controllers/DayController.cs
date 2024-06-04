@@ -22,16 +22,6 @@ namespace HowsYourDayAPI.Controllers
             return await _context.Days.ToListAsync();
         }
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Day>> GetDay(int id)
-        {
-            var day = await _context.Days.FindAsync(id);
-            if (day == null)
-                return NotFound();
-            
-            return day;
-        }
-
         [HttpPost]
         public async Task<ActionResult<Day>> PostDay(Day day)
         {
@@ -39,7 +29,7 @@ namespace HowsYourDayAPI.Controllers
             _context.Days.Add(day);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetDay", new { id = day.Id }, day);
+            return CreatedAtAction("GetDay", new { userId = day.UserId }, day);
         }
     }
 }
