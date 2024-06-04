@@ -29,7 +29,7 @@ namespace HowsYourDayAPI.Controllers
             _context.Days.Add(day);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetDay", new { userId = day.UserId }, day);
+            return CreatedAtAction("GetDay", new { id = day.Id }, day);
         }
     }
 }
