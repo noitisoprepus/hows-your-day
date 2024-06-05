@@ -3,6 +3,7 @@ using System;
 using HowsYourDayAPI.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace HowsYourDayAPI.Migrations
 {
     [DbContext(typeof(HowsYourDayAppDbContext))]
-    partial class HowsYourDayAppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240605031328_DayGuid")]
+    partial class DayGuid
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

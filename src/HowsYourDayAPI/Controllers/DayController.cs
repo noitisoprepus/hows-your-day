@@ -30,12 +30,5 @@ namespace HowsYourDayAPI.Controllers
                 return NotFound();
             return day;
         }
-
-        [HttpPost]
-        public async Task<ActionResult<Day>> PostDay(Day day)
-        {
-            var newDay = await _dayService.AddDayAsync(day);
-            return CreatedAtAction(nameof(GetDay), new { id = newDay.Id }, newDay);
-        }
     }
 }

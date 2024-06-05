@@ -88,7 +88,7 @@ namespace HowsYourDayAPI.Controllers
                 return NotFound("User not found");
 
             var createdDay = await _dayService.AddDayForUserAsync(userId, day);
-            return CreatedAtAction(nameof(GetDaysForUser), new { userId = userId, id = createdDay.Id }, createdDay);
+            return CreatedAtAction(nameof(GetDaysForUser), new { userId = userId }, createdDay);
         }
     }
 }
