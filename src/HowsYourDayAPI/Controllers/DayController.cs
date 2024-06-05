@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace HowsYourDayAPI.Controllers
 {
     [ApiController]
-    [Route("API/[controller]")]
+    [Route("api/day")]
     public class DayController : ControllerBase
     {
         private readonly IDayService _dayService;

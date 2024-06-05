@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace HowsYourDayAPI.Controllers
 {
     [ApiController]
-    [Route("API/[controller]")]
+    [Route("api/user")]
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
