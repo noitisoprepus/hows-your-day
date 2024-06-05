@@ -22,11 +22,20 @@ namespace HowsYourDayAPI.Controllers
             return Ok(days);
         }
 
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Day>> GetDay(int id)
+        {
+            var day = await _dayService.GetDayAsync(id);
+            if (day == null)
+                return NotFound();
+            return day;
+        }
+
         [HttpPost]
         public async Task<ActionResult<Day>> PostDay(Day day)
         {
             var newDay = await _dayService.AddDayAsync(day);
-            return CreatedAtAction("GetDay", new { id = newDay.Id }, newDay);
+            return CreatedAtAction(nameof(GetDay), new { id = newDay.Id }, newDay);
         }
     }
 }

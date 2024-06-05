@@ -9,10 +9,12 @@ namespace HowsYourDayAPI.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
+        private readonly IDayService _dayService;
 
-        public UserController(IUserService userService)
+        public UserController(IUserService userService, IDayService dayService)
         {
             _userService = userService;
+            _dayService = dayService;
         }
 
         [HttpGet]
@@ -35,7 +37,7 @@ namespace HowsYourDayAPI.Controllers
         public async Task<ActionResult<User>> PostUser(User user)
         {
             var newUser = await _userService.PostUserAsync(user);
-            return CreatedAtAction("GetUser", new { id = newUser.Id }, newUser);
+            return CreatedAtAction(nameof(GetUser), new { id = newUser.Id }, newUser);
         }
 
         [HttpPut("{id}")]
@@ -69,6 +71,24 @@ namespace HowsYourDayAPI.Controllers
             }
 
             return NoContent();
+        }
+
+        [HttpGet("{userId:int}/day")]
+        public async Task<ActionResult<IEnumerable<Day>>> GetDaysForUser(int userId)
+        {
+            var days = await _dayService.GetDaysForUserAsync(userId);
+            return Ok(days);
+        }
+
+        [HttpPost("{userId:int}/day")]
+        public async Task<ActionResult<Day>> PostDayForUser(int userId, [FromBody] Day day)
+        {
+            var user = await _userService.GetUserAsync(userId);
+            if (user == null)
+                return NotFound("User not found");
+
+            var createdDay = await _dayService.AddDayForUserAsync(userId, day);
+            return CreatedAtAction(nameof(GetDaysForUser), new { userId = userId, id = createdDay.Id }, createdDay);
         }
     }
 }
