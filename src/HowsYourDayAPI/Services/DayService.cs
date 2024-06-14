@@ -23,13 +23,13 @@ namespace HowsYourDayAPI.Services
             return await _context.Days.FindAsync(id);
         }
 
-        public async Task<IEnumerable<Day>> GetDaysForUserAsync(int userId)
+        public async Task<IEnumerable<Day>> GetDaysForUserAsync(string userId)
         {
             return await _context.Days.Where(d => d.UserId == userId).ToListAsync();
         }
 
         // TODO: Change to use currently logged in user
-        public async Task<Day> AddDayForUserAsync(int userId, Day day)
+        public async Task<Day> AddDayForUserAsync(string userId, Day day)
         {
             day.DayId = Guid.NewGuid();
             day.UserId = userId;

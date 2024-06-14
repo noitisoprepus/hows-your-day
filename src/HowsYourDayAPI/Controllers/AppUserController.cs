@@ -6,26 +6,26 @@ namespace HowsYourDayAPI.Controllers
 {
     [ApiController]
     [Route("api/user")]
-    public class UserController : ControllerBase
+    public class AppUserController : ControllerBase
     {
-        private readonly IUserService _userService;
+        private readonly IAppUserService _userService;
         private readonly IDayService _dayService;
 
-        public UserController(IUserService userService, IDayService dayService)
+        public AppUserController(IAppUserService userService, IDayService dayService)
         {
             _userService = userService;
             _dayService = dayService;
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<User>>> GetUsers()
+        public async Task<ActionResult<IEnumerable<AppUser>>> GetUsers()
         {
             var users = await _userService.GetUsersAsync();
             return Ok(users);
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<User>> GetUser(int id)
+        public async Task<ActionResult<AppUser>> GetUser(string id)
         {
             var user = await _userService.GetUserAsync(id);
             if (user == null)
@@ -34,14 +34,14 @@ namespace HowsYourDayAPI.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<User>> PostUser(User user)
+        public async Task<ActionResult<AppUser>> PostUser(AppUser user)
         {
             var newUser = await _userService.PostUserAsync(user);
-            return CreatedAtAction(nameof(GetUser), new { id = newUser.Id }, newUser);
+            return CreatedAtAction(nameof(GetUser), new { id = user.Id }, user);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutUser(int id, User user)
+        public async Task<IActionResult> PutUser(string id, AppUser user)
         {
             if (id != user.Id)
                 return BadRequest();
@@ -59,7 +59,7 @@ namespace HowsYourDayAPI.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteUser(int id)
+        public async Task<IActionResult> DeleteUser(string id)
         {
             try
             {
@@ -74,18 +74,18 @@ namespace HowsYourDayAPI.Controllers
         }
 
         [HttpGet("{userId:int}/day")]
-        public async Task<ActionResult<IEnumerable<Day>>> GetDaysForUser(int userId)
+        public async Task<ActionResult<IEnumerable<Day>>> GetDaysForUser(string userId)
         {
             var days = await _dayService.GetDaysForUserAsync(userId);
             return Ok(days);
         }
 
         [HttpPost("{userId:int}/day")]
-        public async Task<ActionResult<Day>> PostDayForUser(int userId, [FromBody] Day day)
+        public async Task<ActionResult<Day>> PostDayForUser(string userId, [FromBody] Day day)
         {
             var user = await _userService.GetUserAsync(userId);
             if (user == null)
-                return NotFound("User not found");
+                return NotFound("AppUser not found");
 
             var createdDay = await _dayService.AddDayForUserAsync(userId, day);
             return CreatedAtAction(nameof(GetDaysForUser), new { userId = userId }, createdDay);

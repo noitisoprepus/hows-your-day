@@ -1,5 +1,6 @@
 using DotNetEnv;
 using HowsYourDayAPI.Data;
+using HowsYourDayAPI.Models;
 using HowsYourDayAPI.Services;
 using Microsoft.EntityFrameworkCore;
 
@@ -16,10 +17,13 @@ builder.Configuration["ConnectionStrings:DefaultConnection"] = connectionString;
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddAuthorization();
 builder.Services.AddDbContext<HowsYourDayAppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddIdentityApiEndpoints<AppUser>()
+    .AddEntityFrameworkStores<HowsYourDayAppDbContext>();
 builder.Services.AddScoped<IDayService, DayService>();
-builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IAppUserService, AppUserService>();
 
 var app = builder.Build();
 
@@ -34,5 +38,6 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+app.MapIdentityApi<AppUser>();
 
 app.Run();

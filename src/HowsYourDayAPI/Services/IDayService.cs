@@ -6,7 +6,7 @@ namespace HowsYourDayAPI.Services
     {
         Task<IEnumerable<Day>> GetDaysAsync();
         Task<Day?> GetDayAsync(int id);
-        Task<IEnumerable<Day>> GetDaysForUserAsync(int userId);
-        Task<Day> AddDayForUserAsync(int userId, Day day);
+        Task<IEnumerable<Day>> GetDaysForUserAsync(string userId);
+        Task<Day> AddDayForUserAsync(string userId, Day day);
     }
 }
