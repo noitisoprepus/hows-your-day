@@ -73,22 +73,18 @@ namespace HowsYourDayAPI.Controllers
             return NoContent();
         }
 
-        [HttpGet("{userId:int}/day")]
+        [HttpGet("{userId}/day")]
         public async Task<ActionResult<IEnumerable<Day>>> GetDaysForUser(string userId)
         {
             var days = await _dayService.GetDaysForUserAsync(userId);
             return Ok(days);
         }
 
-        [HttpPost("{userId:int}/day")]
+        [HttpPost("{userId}/day")]
         public async Task<ActionResult<Day>> PostDayForUser(string userId, [FromBody] Day day)
         {
-            var user = await _userService.GetUserAsync(userId);
-            if (user == null)
-                return NotFound("AppUser not found");
-
             var createdDay = await _dayService.AddDayForUserAsync(userId, day);
-            return CreatedAtAction(nameof(GetDaysForUser), new { userId = userId }, createdDay);
+            return CreatedAtAction(nameof(GetDaysForUser), new { userId }, createdDay);
         }
     }
 }
