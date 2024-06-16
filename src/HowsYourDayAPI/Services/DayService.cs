@@ -28,12 +28,19 @@ namespace HowsYourDayAPI.Services
             return await _context.Days.Where(d => d.UserId == userId).ToListAsync();
         }
 
-        // TODO: Change to use currently logged in user
-        public async Task<Day> AddDayForUserAsync(string userId, Day day)
+        public async Task<Day?> AddDayForUserAsync(string userId, Day day)
         {
             day.DayId = Guid.NewGuid();
             day.UserId = userId;
+
+            var today = DateTime.UtcNow.Date;
+            var hasPostedToday = await _context.Days
+                .AnyAsync(d => d.UserId == day.UserId && d.LogDate.Date == today);
+            if (hasPostedToday)
+                return null;
+
             day.LogDate = DateTime.UtcNow;
+            
             _context.Days.Add(day);
             await _context.SaveChangesAsync();
             return day;
