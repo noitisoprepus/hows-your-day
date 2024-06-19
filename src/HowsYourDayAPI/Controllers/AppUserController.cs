@@ -1,11 +1,13 @@
 using HowsYourDayAPI.Models;
 using HowsYourDayAPI.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HowsYourDayAPI.Controllers
 {
     [ApiController]
-    [Route("api/user")]
+    [Route("user")]
+    [Authorize]
     public class AppUserController : ControllerBase
     {
         private readonly IAppUserService _userService;
@@ -34,6 +36,7 @@ namespace HowsYourDayAPI.Controllers
         }
 
         [HttpPost]
+        [AllowAnonymous]
         public async Task<ActionResult<AppUser>> PostUser(AppUser user)
         {
             var newUser = await _userService.PostUserAsync(user);

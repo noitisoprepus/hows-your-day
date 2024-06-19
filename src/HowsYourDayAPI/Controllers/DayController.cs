@@ -1,11 +1,13 @@
 using HowsYourDayAPI.Models;
 using HowsYourDayAPI.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HowsYourDayAPI.Controllers
 {
     [ApiController]
-    [Route("api/day")]
+    [Route("day")]
+    [Authorize]
     public class DayController : ControllerBase
     {
         private readonly IDayService _dayService;
