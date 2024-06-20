@@ -1,5 +1,5 @@
+using HowsYourDayAPI.Interfaces;
 using HowsYourDayAPI.Models;
-using HowsYourDayAPI.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

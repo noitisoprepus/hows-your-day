@@ -1,4 +1,5 @@
 using HowsYourDayAPI.Data;
+using HowsYourDayAPI.Interfaces;
 using HowsYourDayAPI.Models;
 using Microsoft.EntityFrameworkCore;
 

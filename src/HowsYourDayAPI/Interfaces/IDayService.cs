@@ -1,6 +1,6 @@
 using HowsYourDayAPI.Models;
 
-namespace HowsYourDayAPI.Services
+namespace HowsYourDayAPI.Interfaces
 {
     public interface IDayService
     {
