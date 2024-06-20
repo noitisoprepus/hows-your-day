@@ -53,6 +53,7 @@ builder.Services.AddAuthentication(options =>
     };
 });
 builder.Services.AddScoped<IDayService, DayService>();
+builder.Services.AddScoped<ITokenService, TokenService>();
 
 var app = builder.Build();
 
@@ -67,7 +68,6 @@ app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapIdentityApi<IdentityUser>();
 app.MapControllers();
 
 app.Run();
