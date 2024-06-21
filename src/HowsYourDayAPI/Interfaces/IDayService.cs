@@ -1,3 +1,4 @@
+using HowsYourDayAPI.DTOs.Day;
 using HowsYourDayAPI.Models;
 
 namespace HowsYourDayAPI.Interfaces
@@ -7,6 +8,6 @@ namespace HowsYourDayAPI.Interfaces
         Task<IEnumerable<Day>> GetDaysAsync();
         Task<Day?> GetDayAsync(int id);
         Task<IEnumerable<Day>> GetDaysForUserAsync(string userId);
-        Task<Day?> AddDayForUserAsync(string userId, Day day);
+        Task<Day?> AddDayForUserAsync(string userId, CreateDayDTO day);
     }
 }

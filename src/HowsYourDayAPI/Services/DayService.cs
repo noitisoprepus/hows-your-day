@@ -1,4 +1,5 @@
 using HowsYourDayAPI.Data;
+using HowsYourDayAPI.DTOs.Day;
 using HowsYourDayAPI.Interfaces;
 using HowsYourDayAPI.Models;
 using Microsoft.EntityFrameworkCore;
@@ -29,22 +30,24 @@ namespace HowsYourDayAPI.Services
             return await _context.Days.Where(d => d.UserId == userId).ToListAsync();
         }
 
-        public async Task<Day?> AddDayForUserAsync(string userId, Day day)
+        public async Task<Day?> AddDayForUserAsync(string userId, CreateDayDTO day)
         {
-            day.DayId = Guid.NewGuid();
-            day.UserId = userId;
-
             var today = DateTime.UtcNow.Date;
             var hasPostedToday = await _context.Days
-                .AnyAsync(d => d.UserId == day.UserId && d.LogDate.Date == today);
-            if (hasPostedToday)
-                return null;
+                .AnyAsync(d => d.UserId == userId && d.LogDate.Date == today);
+            if (hasPostedToday) return null;
 
-            day.LogDate = DateTime.UtcNow;
-            
-            _context.Days.Add(day);
+            var newDay = new Day{
+                DayId = Guid.NewGuid(),
+                UserId = userId,
+                LogDate = DateTime.UtcNow,
+                Rating = day.Rating,
+                Comment = day.Comment
+            };
+            _context.Days.Add(newDay);
             await _context.SaveChangesAsync();
-            return day;
+            
+            return newDay;
         }
     }
 }
