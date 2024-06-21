@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using HowsYourDayAPI.DTOs.Day;
 using HowsYourDayAPI.Interfaces;
 using HowsYourDayAPI.Models;
@@ -7,7 +8,6 @@ using Microsoft.AspNetCore.Mvc;
 namespace HowsYourDayAPI.Controllers
 {
     [ApiController]
-    [Route("day")]
     [Authorize]
     public class DayController : ControllerBase
     {
@@ -18,14 +18,14 @@ namespace HowsYourDayAPI.Controllers
             _dayService = dayService;
         }
 
-        [HttpGet]
+        [HttpGet("day")]
         public async Task<ActionResult<IEnumerable<Day>>> GetDays()
         {
             var days = await _dayService.GetDaysAsync();
             return Ok(days);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("day/{id}")]
         public async Task<ActionResult<Day>> GetDay(int id)
         {
             var day = await _dayService.GetDayAsync(id);
@@ -34,16 +34,19 @@ namespace HowsYourDayAPI.Controllers
             return Ok(day);
         }
 
-        [HttpGet("{userId}/day")]
-        public async Task<ActionResult<IEnumerable<Day>>> GetDaysForUser(string userId)
+        [HttpGet("account/day")]
+        public async Task<ActionResult<IEnumerable<Day>>> GetDaysForUser()
         {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var days = await _dayService.GetDaysForUserAsync(userId);
             return Ok(days);
         }
 
-        [HttpPost("{userId}/day")]
-        public async Task<ActionResult<Day>> PostDayForUser(string userId, [FromBody] CreateDayDTO day)
+        [HttpPost("account/day")]
+        public async Task<ActionResult<Day>> PostDayForUser([FromBody] CreateDayDTO day)
         {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
             var createdDay = await _dayService.AddDayForUserAsync(userId, day);
             if (createdDay == null) return BadRequest("You have already posted today.");
             

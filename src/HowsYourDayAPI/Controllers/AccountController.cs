@@ -40,6 +40,7 @@ namespace HowsYourDayAPI.Controllers
                     return Ok(
                         new UserDTO
                         {
+                            Id = user.Id,
                             Email = user.Email,
                             Token = _tokenService.CreateToken(user)
                         }
@@ -57,12 +58,13 @@ namespace HowsYourDayAPI.Controllers
             var user = await _userManager.FindByEmailAsync(login.EmailAddress);
             if (user == null) return Unauthorized("Invalid email");
 
-            var result = await _signInManager.CheckPasswordSignInAsync(user, login.Password, false);
+            var result = await _signInManager.PasswordSignInAsync(user, login.Password, false, false);
             if (result.Succeeded)
             {
                 return Ok(
                     new UserDTO
                     {
+                        Id = user.Id,
                         Email = user.Email,
                         Token = _tokenService.CreateToken(user)
                     }
