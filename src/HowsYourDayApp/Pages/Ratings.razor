@@ -1,0 +1,27 @@
+@foreach (var i in Enumerable.Range(1, 5))
+{
+    <span class="rating-icon" @onclick="() => SetRating(i)">
+        @if (i <= Rating)
+        {
+            <i class="bi bi-star-fill filled"></i>
+        }
+        else
+        {
+            <i class="bi bi-star"></i>
+        }
+    </span>
+}
+
+@code {
+    [Parameter]
+    public int Rating { get; set; } = 0;
+
+    [Parameter]
+    public EventCallback<int> RatingChangedEvent { get; set; }
+    
+    void SetRating(int value)
+    {
+        Rating = value;
+        RatingChangedEvent.InvokeAsync(value);
+    }
+}

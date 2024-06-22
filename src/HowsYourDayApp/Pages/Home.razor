@@ -5,6 +5,26 @@
 
 <h1>Hello there! How's your day?</h1>
 
+<Ratings Rating="dayRating" RatingChangedEvent="OnRatingChanged"/>
+<br>
+<p>@dayRating</p>
+<input @bind="dayComment"/>
+<br>
+<button @onclick="SubmitDayEntry">Submit</button>
+
 @code {
-    
+    int dayRating;
+    string? dayComment;
+
+    void OnRatingChanged(int rating)
+    {
+        dayRating = rating;
+    }
+
+    void SubmitDayEntry()
+    {
+        // Reset
+        dayRating = 0;
+        dayComment = String.Empty;
+    }
 }
