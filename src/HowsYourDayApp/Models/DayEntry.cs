@@ -1,5 +1,8 @@
-public class DayEntry
+namespace HowsYourDayApp.Models
 {
-    public int Rating { get; set; }
-    public string? Comment { get; set; }
+    public class DayEntry
+    {
+        public int Rating { get; set; }
+        public string? Comment { get; set; }
+    }
 }

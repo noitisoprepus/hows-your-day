@@ -80,6 +80,17 @@ builder.Services.AddAuthentication(options =>
         ValidateLifetime = true,
     };
 });
+// CORS
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("Development",
+        builder => 
+        {
+            builder.AllowAnyHeader()
+                    .AllowAnyMethod()
+                    .AllowAnyOrigin();
+        });
+});
 builder.Services.AddScoped<IDayService, DayService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 
@@ -95,6 +106,8 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.UseCors("Development");
 
 app.MapControllers();
 
