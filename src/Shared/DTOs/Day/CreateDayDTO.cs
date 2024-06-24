@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace HowsYourDayAPI.DTOs.Day
+namespace Shared.DTOs.Day
 {
     public class CreateDayDTO
     {

@@ -1,4 +1,4 @@
-namespace HowsYourDayAPI.DTOs.Account
+namespace Shared.DTOs.Account
 {
     public class UserDTO
     {

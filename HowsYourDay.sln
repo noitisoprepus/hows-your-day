@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HowsYourDayAPI", "src\HowsY
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HowsYourDayApp", "src\HowsYourDayApp\HowsYourDayApp.csproj", "{897F15FD-D9EB-4736-9D57-E24A178E01EA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared", "src\Shared\Shared.csproj", "{8454EEEF-DC9F-4216-9621-6DA29FEB99C4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -26,9 +28,14 @@ Global
 		{897F15FD-D9EB-4736-9D57-E24A178E01EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{897F15FD-D9EB-4736-9D57-E24A178E01EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{897F15FD-D9EB-4736-9D57-E24A178E01EA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8454EEEF-DC9F-4216-9621-6DA29FEB99C4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8454EEEF-DC9F-4216-9621-6DA29FEB99C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8454EEEF-DC9F-4216-9621-6DA29FEB99C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8454EEEF-DC9F-4216-9621-6DA29FEB99C4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{E18B389E-9ACC-4417-9240-618698316321} = {4ACC224A-2F2D-4F9D-A045-7E6903F7D492}
 		{897F15FD-D9EB-4736-9D57-E24A178E01EA} = {4ACC224A-2F2D-4F9D-A045-7E6903F7D492}
+		{8454EEEF-DC9F-4216-9621-6DA29FEB99C4} = {4ACC224A-2F2D-4F9D-A045-7E6903F7D492}
 	EndGlobalSection
 EndGlobal

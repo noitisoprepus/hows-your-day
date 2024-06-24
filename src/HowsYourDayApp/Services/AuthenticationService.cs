@@ -1,5 +1,5 @@
 using System.Net.Http.Json;
-using HowsYourDayApp.Models;
+using Shared.DTOs.Account;
 
 namespace HowsYourDayApp.Services
 {

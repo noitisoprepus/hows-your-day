@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using HowsYourDayAPI.DTOs.Account;
 using HowsYourDayAPI.Interfaces;
 using HowsYourDayAPI.Models;
 using Microsoft.AspNetCore.Authorization;
+using Shared.DTOs.Account;
 
 namespace HowsYourDayAPI.Controllers
 {
