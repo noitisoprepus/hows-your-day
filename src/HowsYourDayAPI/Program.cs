@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.OpenApi.Models;
+using HowsYourDayAPI.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -51,7 +52,7 @@ builder.Services.AddSwaggerGen(option =>
 builder.Services.AddAuthorization();
 builder.Services.AddDbContext<HowsYourDayAppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
-builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
+builder.Services.AddIdentity<AppUser, IdentityRole>(options =>
 {
     options.Password.RequiredLength = 8;
     options.Password.RequireNonAlphanumeric = false;

@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using HowsYourDayAPI.DTOs.Account;
 using HowsYourDayAPI.Interfaces;
+using HowsYourDayAPI.Models;
 using Microsoft.AspNetCore.Authorization;
 
 namespace HowsYourDayAPI.Controllers
@@ -10,11 +11,11 @@ namespace HowsYourDayAPI.Controllers
     [Route("account")]
     public class AccountController : ControllerBase
     {
-        private readonly UserManager<IdentityUser> _userManager;
-        private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly UserManager<AppUser> _userManager;
+        private readonly SignInManager<AppUser> _signInManager;
         private readonly ITokenService _tokenService;
 
-        public AccountController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, ITokenService tokenService)
+        public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, ITokenService tokenService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -26,7 +27,7 @@ namespace HowsYourDayAPI.Controllers
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
             
-            var user = new IdentityUser
+            var user = new AppUser
             {
                 UserName = registerDTO.Email,   // Username is not required anyways
                 Email = registerDTO.Email

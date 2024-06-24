@@ -1,9 +1,9 @@
-using Microsoft.AspNetCore.Identity;
+using HowsYourDayAPI.Models;
 
 namespace HowsYourDayAPI.Interfaces
 {
     public interface ITokenService
     {
-        string CreateToken(IdentityUser user);
+        string CreateToken(AppUser user);
     }
 }

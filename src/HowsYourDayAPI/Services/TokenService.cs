@@ -2,7 +2,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using HowsYourDayAPI.Interfaces;
-using Microsoft.AspNetCore.Identity;
+using HowsYourDayAPI.Models;
 using Microsoft.IdentityModel.Tokens;
 
 namespace HowsYourDayAPI.Services
@@ -16,7 +16,7 @@ namespace HowsYourDayAPI.Services
             _key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable("JWT_KEY")));
         }
 
-        public string CreateToken(IdentityUser user)
+        public string CreateToken(AppUser user)
         {
             var claims = new List<Claim>
             {
