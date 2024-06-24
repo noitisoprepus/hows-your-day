@@ -1,5 +1,5 @@
-using HowsYourDayAPI.DTOs.Day;
 using HowsYourDayAPI.Models;
+using Shared.DTOs.Day;
 
 namespace HowsYourDayAPI.Interfaces
 {

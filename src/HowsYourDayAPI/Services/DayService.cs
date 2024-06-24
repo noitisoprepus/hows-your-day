@@ -1,8 +1,8 @@
 using HowsYourDayAPI.Data;
-using HowsYourDayAPI.DTOs.Day;
 using HowsYourDayAPI.Interfaces;
 using HowsYourDayAPI.Models;
 using Microsoft.EntityFrameworkCore;
+using Shared.DTOs.Day;
 
 namespace HowsYourDayAPI.Services
 {
