@@ -38,14 +38,10 @@ namespace HowsYourDayAPI.Controllers
             {
                 var roleResult = await _userManager.AddToRoleAsync(user, "User");
                 if (roleResult.Succeeded)
-                    return Ok(
-                        new UserDTO
-                        {
-                            Id = user.Id,
-                            Email = user.Email,
-                            Token = _tokenService.CreateToken(user)
-                        }
-                    );
+                {
+                    var tokenDTO = await _tokenService.CreateToken(user, true);
+                    return Ok(tokenDTO);
+                }
                 else return BadRequest(roleResult.Errors);
             }
             else return BadRequest(createdUser.Errors);
@@ -62,14 +58,8 @@ namespace HowsYourDayAPI.Controllers
             var result = await _signInManager.PasswordSignInAsync(user, login.Password, false, false);
             if (result.Succeeded)
             {
-                return Ok(
-                    new UserDTO
-                    {
-                        Id = user.Id,
-                        Email = user.Email,
-                        Token = _tokenService.CreateToken(user)
-                    }
-                );
+                var tokenDTO = await _tokenService.CreateToken(user, true);
+                return Ok(tokenDTO);
             }
             else return Unauthorized("Email or password not found");
         }
