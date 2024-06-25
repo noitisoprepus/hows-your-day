@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using HowsYourDayAPI.Interfaces;
 using Shared.DTOs.Account;
+using Microsoft.AspNetCore.Authorization;
 
 namespace HowsYourDayAPI.Controllers
 {
@@ -16,11 +17,17 @@ namespace HowsYourDayAPI.Controllers
         }
 
         [HttpPost("refresh")]
-        public async Task<IActionResult> Refresh([FromBody] TokenDTO tokenDTO)
+        [Authorize]
+        public async Task<IActionResult> Refresh()
         {
+            HttpContext.Request.Cookies.TryGetValue("accessToken", out var accessToken);
+            HttpContext.Request.Cookies.TryGetValue("refreshToken", out var refreshToken);
+            
+            var tokenDTO = new TokenDTO(accessToken, refreshToken);
             var newTokenDTO = await _tokenService.RefreshToken(tokenDTO);
-            return Ok(newTokenDTO);
-
+            _tokenService.StoreTokensToCookie(newTokenDTO, HttpContext);
+            
+            return Ok();
         }
     }
 }

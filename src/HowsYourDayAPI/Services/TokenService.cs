@@ -102,5 +102,49 @@ namespace HowsYourDayAPI.Services
 
             return principal;
         }
+
+        public void StoreTokensToCookie(TokenDTO tokenDTO, HttpContext context)
+        {
+            context.Response.Cookies.Append("accessToken", tokenDTO.AccessToken,
+                new CookieOptions
+            {
+                Expires = DateTime.UtcNow.AddMinutes(5),
+                HttpOnly = true,
+                IsEssential = true,
+                Secure =  true,
+                SameSite = SameSiteMode.None
+            });
+            
+            context.Response.Cookies.Append("refreshToken", tokenDTO.RefreshToken,
+                new CookieOptions
+            {
+                Expires = DateTime.UtcNow.AddDays(7),
+                HttpOnly = true,
+                IsEssential = true,
+                Secure =  true,
+                SameSite = SameSiteMode.None
+            });
+        }
+
+        public void ClearTokenCookie(HttpContext context)
+        {
+            context.Response.Cookies.Delete("accessToken",
+                new CookieOptions
+            {
+                HttpOnly = true,
+                IsEssential = true,
+                Secure =  true,
+                SameSite = SameSiteMode.None
+            });
+
+            context.Response.Cookies.Delete("refreshToken",
+                new CookieOptions
+            {
+                HttpOnly = true,
+                IsEssential = true,
+                Secure =  true,
+                SameSite = SameSiteMode.None
+            });
+        }
     }
 }

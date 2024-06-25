@@ -80,6 +80,18 @@ builder.Services.AddAuthentication(options =>
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable("JWT_KEY"))),
         ValidateLifetime = true,
     };
+
+    options.Events = new JwtBearerEvents
+    {
+        OnMessageReceived = context =>
+        {
+            context.Request.Cookies.TryGetValue("accessToken", out var accessToken);
+            if (!string.IsNullOrEmpty(accessToken))
+                context.Token = accessToken;
+            
+            return Task.CompletedTask;
+        }
+    };
 });
 // CORS
 builder.Services.AddCors(options =>

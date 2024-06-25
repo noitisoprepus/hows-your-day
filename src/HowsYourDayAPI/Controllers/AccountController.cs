@@ -40,7 +40,8 @@ namespace HowsYourDayAPI.Controllers
                 if (roleResult.Succeeded)
                 {
                     var tokenDTO = await _tokenService.CreateToken(user, true);
-                    return Ok(tokenDTO);
+                    _tokenService.StoreTokensToCookie(tokenDTO, HttpContext);
+                    return Ok();
                 }
                 else return BadRequest(roleResult.Errors);
             }
@@ -59,7 +60,8 @@ namespace HowsYourDayAPI.Controllers
             if (result.Succeeded)
             {
                 var tokenDTO = await _tokenService.CreateToken(user, true);
-                return Ok(tokenDTO);
+                _tokenService.StoreTokensToCookie(tokenDTO, HttpContext);
+                return Ok();
             }
             else return Unauthorized("Email or password not found");
         }
@@ -69,6 +71,7 @@ namespace HowsYourDayAPI.Controllers
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
+            _tokenService.ClearTokenCookie(HttpContext);
             return Ok("User logged out successfully");
         }
     }
