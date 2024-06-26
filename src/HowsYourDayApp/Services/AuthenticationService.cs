@@ -7,17 +7,22 @@ namespace HowsYourDayApp.Services
     {
         private readonly HttpClient _httpClient;
 
-        public AuthenticationService(HttpClient httpClient)
+        public AuthenticationService(IHttpClientFactory httpClientFactory)
         {
-            _httpClient = httpClient;
+            _httpClient = httpClientFactory.CreateClient("HowsYourDayApp");
         }
 
-        public async Task<UserDTO> LoginAsync(LoginDTO login)
-        {
-            var response = await _httpClient.PostAsJsonAsync("account/login", login);
-            response.EnsureSuccessStatusCode();
 
-            return await response.Content.ReadFromJsonAsync<UserDTO>();
+        public async Task LoginAsync(LoginDTO login)
+        {
+            var response = await _httpClient.PostAsJsonAsync($"{_httpClient.BaseAddress}account/login", login);
+            response.EnsureSuccessStatusCode();
+        }
+
+        public async Task LogoutAsync()
+        {
+            var response = await _httpClient.PostAsync($"{_httpClient.BaseAddress}account/logout", null);
+            response.EnsureSuccessStatusCode();
         }
     }
 }

@@ -97,11 +97,12 @@ builder.Services.AddAuthentication(options =>
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("Development",
-        builder => 
+        policy => 
         {
-            builder.AllowAnyHeader()
-                    .AllowAnyMethod()
-                    .AllowAnyOrigin();
+            policy.WithOrigins("https://127.0.0.1:7274", "https://localhost:7245")
+                .AllowAnyHeader()
+                .AllowAnyMethod()
+                .AllowCredentials();
         });
 });
 builder.Services.AddScoped<IDayService, DayService>();
@@ -117,10 +118,10 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseCors("Development");
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.UseCors("Development");
 
 app.MapControllers();
 

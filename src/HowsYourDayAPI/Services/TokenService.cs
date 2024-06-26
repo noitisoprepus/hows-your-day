@@ -108,6 +108,8 @@ namespace HowsYourDayAPI.Services
             context.Response.Cookies.Append("accessToken", tokenDTO.AccessToken,
                 new CookieOptions
             {
+                Path = "/",
+                Domain = "localhost",
                 Expires = DateTime.UtcNow.AddMinutes(5),
                 HttpOnly = true,
                 IsEssential = true,

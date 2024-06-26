@@ -7,14 +7,14 @@ namespace HowsYourDayApp.Services
     {
         private readonly HttpClient _httpClient;
 
-        public DayService(HttpClient httpClient)
+        public DayService(IHttpClientFactory httpClientFactory)
         {
-            _httpClient = httpClient;
+            _httpClient = httpClientFactory.CreateClient("HowsYourDayApp");
         }
 
         public async Task<IEnumerable<DayEntry>> GetDaysForUserAsync()
         {
-            return await _httpClient.GetFromJsonAsync<IEnumerable<DayEntry>>("account/day");
+            return await _httpClient.GetFromJsonAsync<IEnumerable<DayEntry>>($"{_httpClient.BaseAddress}account/day");
         }
     }
 }
