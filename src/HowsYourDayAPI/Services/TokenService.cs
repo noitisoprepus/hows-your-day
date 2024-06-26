@@ -5,6 +5,7 @@ using System.Text;
 using HowsYourDayAPI.Interfaces;
 using HowsYourDayAPI.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Shared.DTOs.Account;
 
@@ -57,13 +58,9 @@ namespace HowsYourDayAPI.Services
 
         public async Task<TokenDTO> RefreshToken(TokenDTO tokenDTO)
         {
-            var principal = GetPrincipalFromExpiredToken(tokenDTO.AccessToken);
-            var user = await _userManager.FindByNameAsync(principal.Identity.Name);
-            if (user == null || user.RefreshToken != tokenDTO.RefreshToken ||
-                user.RefreshTokenExpiry <= DateTime.UtcNow)
-            {
-                throw new Exception("Unable to refresh token");
-            }
+            var user = await _userManager.Users.SingleOrDefaultAsync(u => u.RefreshToken == tokenDTO.RefreshToken);
+            if (user == null || user.RefreshTokenExpiry <= DateTime.UtcNow)
+                throw new Exception("Refresh token invalid. Please login again.");
 
             return await CreateToken(user, true);
         }
@@ -76,31 +73,6 @@ namespace HowsYourDayAPI.Services
                 rng.GetBytes(randomNum);
                 return Convert.ToBase64String(randomNum);
             }
-        }
-
-        private ClaimsPrincipal GetPrincipalFromExpiredToken(string token)
-        {
-            var tokenValidationParams = new TokenValidationParameters
-            {
-                ValidateIssuer = true,
-                ValidIssuer = Environment.GetEnvironmentVariable("JWT_ISSUER"),
-                ValidateAudience = true,
-                ValidAudience = Environment.GetEnvironmentVariable("JWT_AUDIENCE"),
-                ValidateIssuerSigningKey = true,
-                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable("JWT_KEY"))),
-                ValidateLifetime = false
-            };
-
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var principal = tokenHandler.ValidateToken(token, tokenValidationParams, out SecurityToken securityToken);
-            var jwtSecurityToken = securityToken as JwtSecurityToken;
-
-            if (jwtSecurityToken == null)
-            {
-                throw new SecurityTokenException("Invalid token.");
-            }
-
-            return principal;
         }
 
         public void StoreTokensToCookie(TokenDTO tokenDTO, HttpContext context)
