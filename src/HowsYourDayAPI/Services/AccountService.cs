@@ -28,16 +28,14 @@ namespace HowsYourDayAPI.Services
 
             var result = await _userManager.CreateAsync(user, registerDTO.Password);
 
+            // TODO: Have the user confirm their email address.
             if (result.Succeeded)
-            {
                 await _userManager.AddToRoleAsync(user, "User");
-                var tokenDTO = await _tokenService.CreateToken(user, true);
-                _tokenService.StoreTokensToCookie(tokenDTO, httpContext);
-            }
 
             return result;
         }
 
+        // TODO: Require email confirmation to sign-in
         public async Task<SignInResult> LoginAsync(LoginDTO login, HttpContext httpContext)
         {
             var user = await _userManager.FindByEmailAsync(login.EmailAddress);
