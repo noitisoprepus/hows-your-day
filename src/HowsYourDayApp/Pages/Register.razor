@@ -1,5 +1,33 @@
 @page "/register"
+@using Shared.DTOs.Account
+@using HowsYourDayApp.Services
+@inject AuthenticationService AuthenticationService
 
 <PageTitle>Register</PageTitle>
 
 <h1>Register Account Page</h1>
+
+<input @bind="register.EmailAddress" placeholder="E-mail" />
+<input @bind="register.Password" placeholder="Password" />
+<button class="register-btn btn-primary" @onclick="HandleRegister">Submit</button>
+<br><a href="/login">Sign in</a>
+
+<br> <p>@output</p>
+
+@code {
+    private string output = "";
+    private RegisterDTO register = new RegisterDTO();
+
+    private async Task HandleRegister()
+    {
+        try
+        {
+            await AuthenticationService.RegisterAsync(register);
+            output = "Welcome! How's your day?";
+        }
+        catch (HttpRequestException e)
+        {
+            output = "Login failed: " + e.Message;
+        }
+    }
+}

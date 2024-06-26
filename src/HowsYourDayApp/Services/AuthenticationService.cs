@@ -12,6 +12,12 @@ namespace HowsYourDayApp.Services
             _httpClient = httpClientFactory.CreateClient("HowsYourDayApp");
         }
 
+        public async Task RegisterAsync(RegisterDTO register)
+        {
+            var response = await _httpClient.PostAsJsonAsync($"{_httpClient.BaseAddress}account/register", register);
+            response.EnsureSuccessStatusCode();
+        }
+
 
         public async Task LoginAsync(LoginDTO login)
         {

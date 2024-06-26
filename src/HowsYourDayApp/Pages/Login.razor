@@ -10,7 +10,8 @@
 
 <input @bind="login.EmailAddress" placeholder="E-mail" />
 <input @bind="login.Password" placeholder="Password" />
-<button class="login-btn btn-primary" @onclick="HandleLogin">Login</button>
+<button class="login-btn btn-primary" @onclick="HandleLogin">Submit</button>
+<br><a href="/register">Register account</a>
 
 <br> <p>@output</p>
 
@@ -26,7 +27,7 @@
         try
         {
             await AuthenticationService.LoginAsync(login);
-            output = "Welcome! How's your day?";
+            output = "Welcome back! How's your day?";
         }
         catch (HttpRequestException e)
         {
