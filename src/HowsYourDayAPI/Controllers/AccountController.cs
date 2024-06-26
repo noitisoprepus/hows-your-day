@@ -1,9 +1,7 @@
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using HowsYourDayAPI.Interfaces;
-using HowsYourDayAPI.Models;
 using Microsoft.AspNetCore.Authorization;
 using Shared.DTOs.Account;
+using HowsYourDayAPI.Interfaces;
 
 namespace HowsYourDayAPI.Controllers
 {
@@ -11,15 +9,11 @@ namespace HowsYourDayAPI.Controllers
     [Route("account")]
     public class AccountController : ControllerBase
     {
-        private readonly UserManager<AppUser> _userManager;
-        private readonly SignInManager<AppUser> _signInManager;
-        private readonly ITokenService _tokenService;
+        private readonly IAccountService _accountService;
 
-        public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, ITokenService tokenService)
+        public AccountController(IAccountService accountService)
         {
-            _userManager = userManager;
-            _signInManager = signInManager;
-            _tokenService = tokenService;
+            _accountService = accountService;
         }
 
         [HttpPost("register")]
@@ -27,25 +21,12 @@ namespace HowsYourDayAPI.Controllers
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
             
-            var user = new AppUser
-            {
-                UserName = registerDTO.Email,   // Username is not required anyways
-                Email = registerDTO.Email
-            };
-            var createdUser = await _userManager.CreateAsync(user, registerDTO.Password);
+            var result = await _accountService.RegisterAsync(registerDTO, HttpContext);
 
-            if (createdUser.Succeeded)
-            {
-                var roleResult = await _userManager.AddToRoleAsync(user, "User");
-                if (roleResult.Succeeded)
-                {
-                    var tokenDTO = await _tokenService.CreateToken(user, true);
-                    _tokenService.StoreTokensToCookie(tokenDTO, HttpContext);
-                    return Ok();
-                }
-                else return BadRequest(roleResult.Errors);
-            }
-            else return BadRequest(createdUser.Errors);
+            if (result.Succeeded)
+                return Ok();
+            else
+                return BadRequest(result.Errors);
         }
 
         [HttpPost("login")]
@@ -53,25 +34,19 @@ namespace HowsYourDayAPI.Controllers
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
             
-            var user = await _userManager.FindByEmailAsync(login.EmailAddress);
-            if (user == null) return Unauthorized("Invalid email");
+            var result = await _accountService.LoginAsync(login, HttpContext);
 
-            var result = await _signInManager.PasswordSignInAsync(user, login.Password, false, false);
             if (result.Succeeded)
-            {
-                var tokenDTO = await _tokenService.CreateToken(user, true);
-                _tokenService.StoreTokensToCookie(tokenDTO, HttpContext);
                 return Ok();
-            }
-            else return Unauthorized("Email or password not found");
+            else
+                return Unauthorized("Email or password not found");
         }
 
         [HttpPost("logout")]
         [Authorize]
         public async Task<IActionResult> Logout()
         {
-            await _signInManager.SignOutAsync();
-            _tokenService.ClearTokenCookie(HttpContext);
+            await _accountService.LogoutAsync(HttpContext);
             return Ok("User logged out successfully");
         }
     }

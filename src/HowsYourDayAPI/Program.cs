@@ -107,6 +107,7 @@ builder.Services.AddCors(options =>
 });
 builder.Services.AddScoped<IDayService, DayService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddScoped<IAccountService, AccountService>();
 
 var app = builder.Build();
 
