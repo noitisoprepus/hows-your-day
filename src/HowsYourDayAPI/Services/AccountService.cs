@@ -22,8 +22,8 @@ namespace HowsYourDayAPI.Services
         {
             var user = new AppUser
             {
-                UserName = registerDTO.Email,
-                Email = registerDTO.Email
+                UserName = registerDTO.EmailAddress,
+                Email = registerDTO.EmailAddress
             };
 
             var result = await _userManager.CreateAsync(user, registerDTO.Password);

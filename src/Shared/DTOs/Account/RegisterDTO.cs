@@ -6,7 +6,7 @@ namespace Shared.DTOs.Account
     {
         [Required]
         [EmailAddress]
-        public string? Email { get; set; }
+        public string? EmailAddress { get; set; }
         [Required]
         public string? Password { get; set; }
     }
