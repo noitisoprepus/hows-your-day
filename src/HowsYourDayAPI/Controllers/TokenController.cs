@@ -18,6 +18,9 @@ namespace HowsYourDayAPI.Controllers
         [HttpPost("refresh")]
         public async Task<IActionResult> Refresh()
         {
+            if (HttpContext.Request.Cookies.TryGetValue("accessToken", out var accessToken))
+                return Ok();
+
             if (!HttpContext.Request.Cookies.TryGetValue("refreshToken", out var refreshToken))
                 return Unauthorized("No user logged in. Refresh token unavailable.");
 
