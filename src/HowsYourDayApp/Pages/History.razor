@@ -7,31 +7,35 @@
 
 <h1>Your Previous Days</h1>
 
-<button class="test-btn btn-primary" @onclick="HandleFetchUserDays">Refresh</button>
-
-<br> <p>@output</p>
-
-@if (days == null)
+@if (intialized)
 {
-    <div class="spinner-border" role="status" />
+    @if (days.Count().Equals(0))
+    {
+        <p>You have not logged yet.</p>
+    }
+    else
+    {
+        <ul>
+            @foreach (var day in days)
+            {
+                <li>(@day.LogDate.ToShortDateString()) @day.Rating: @day.Comment</li>
+            }
+        </ul>
+    }
 }
 else
 {
-    <ul>
-        @foreach (var day in days)
-        {
-            <li>(@day.LogDate.ToShortDateString()) @day.Rating: @day.Comment</li>
-        }
-    </ul>
+    <div class="spinner-border" role="status" />
 }
 
 @code {
-    private string output = "";
     private IEnumerable<DayEntry> days;
+    private bool intialized = false;
 
     protected override async Task OnInitializedAsync()
     {
         await HandleFetchUserDays();
+        intialized = true;
     }
 
     private async Task HandleFetchUserDays()
