@@ -1,30 +1,52 @@
 ﻿@page "/"
-@rendermode InteractiveWebAssembly
+@using Shared.DTOs.Day
+@using HowsYourDayApp.Services
+@inject DayService DayService
 
 <PageTitle>How's Your Day?</PageTitle>
 
 <h1>Hello there! How's your day?</h1>
 
-<Ratings Rating="dayRating" RatingChangedEvent="OnRatingChanged"/>
-<br>
-<p>@dayRating</p>
-<input @bind="dayComment"/>
-<br>
-<button @onclick="SubmitDayEntry">Submit</button>
+@if (alreadyPosted)
+{
+    <p>You have already posted today. Come back tomorrow!</p>
+}
+else
+{
+    <Ratings Rating="createDayDTO.Rating" RatingChangedEvent="OnRatingChanged"/>
+    <br>
+    <p>@createDayDTO.Rating</p>
+    <input @bind="createDayDTO.Comment" />
+    <br>
+    <button @onclick="SubmitDayEntry">Submit</button>
+}
 
 @code {
-    int dayRating;
-    string? dayComment;
+    private CreateDayDTO createDayDTO = new CreateDayDTO();
+    private bool alreadyPosted = false;
 
-    void OnRatingChanged(int rating)
+    protected override async Task OnInitializedAsync()
     {
-        dayRating = rating;
+        await HandleFetchUserHasPostedToday();
     }
 
-    void SubmitDayEntry()
+    private async Task HandleFetchUserHasPostedToday()
     {
+        alreadyPosted = await DayService.HasUserPostedTodayAsync();
+    }
+
+    private void OnRatingChanged(int rating)
+    {
+        createDayDTO.Rating = rating;
+    }
+
+    private async Task SubmitDayEntry()
+    {
+        alreadyPosted = true;
+        await DayService.LogDayAsync(createDayDTO);
+
         // Reset
-        dayRating = 0;
-        dayComment = String.Empty;
+        createDayDTO.Rating = 0;
+        createDayDTO.Comment = String.Empty;
     }
 }

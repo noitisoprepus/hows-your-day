@@ -25,6 +25,12 @@ namespace HowsYourDayAPI.Services
             return await _context.Days.FindAsync(id);
         }
 
+        public async Task<bool> HasUserPostedTodayAsync(string userId)
+        {
+            return await _context.Days.AnyAsync(d => d.UserId == userId &&
+                d.LogDate.Date == DateTime.UtcNow.Date);
+        }
+
         public async Task<IEnumerable<Day>> GetDaysForUserAsync(string userId)
         {
             return await _context.Days.Where(d => d.UserId == userId).ToListAsync();

@@ -1,5 +1,41 @@
 @page "/history"
+@using HowsYourDayApp.Models
+@using HowsYourDayApp.Services
+@inject DayService DayService
 
 <PageTitle>History</PageTitle>
 
 <h1>Your Previous Days</h1>
+
+<button class="test-btn btn-primary" @onclick="HandleFetchUserDays">Refresh</button>
+
+<br> <p>@output</p>
+
+@if (days == null)
+{
+    <p>Loading...</p>
+}
+else
+{
+    <ul>
+        @foreach (var day in days)
+        {
+            <li>(@day.LogDate.ToShortDateString()) @day.Rating: @day.Comment</li>
+        }
+    </ul>
+}
+
+@code {
+    private string output = "";
+    private IEnumerable<DayEntry> days;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await HandleFetchUserDays();
+    }
+
+    private async Task HandleFetchUserDays()
+    {
+        days = await DayService.GetDaysForUserAsync();
+    }
+}

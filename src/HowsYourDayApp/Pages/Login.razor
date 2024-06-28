@@ -2,7 +2,6 @@
 @using Shared.DTOs.Account
 @using HowsYourDayApp.Services
 @inject AuthenticationService AuthenticationService
-@inject DayService DayService
 
 <PageTitle>Login</PageTitle>
 
@@ -15,7 +14,6 @@
 
 <br> <p>@output</p>
 
-<button class="test-btn btn-primary" @onclick="HandleTest">Test</button>
 <button class="logout-btn btn-secondary" @onclick="HandleLogout">Logout</button>
 
 @code {
@@ -45,19 +43,6 @@
         catch (HttpRequestException e)
         {
             output = "Logout failed: " + e.Message;
-        }
-    }
-
-    private async Task HandleTest()
-    {
-        try
-        {
-            var response = await DayService.GetDaysForUserAsync();
-            output = response.ToString();
-        }
-        catch (HttpRequestException e)
-        {
-            output = "Test failed: " + e.Message;
         }
     }
 }
