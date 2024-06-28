@@ -7,8 +7,8 @@
 
 <h1>Login Account Page</h1>
 
-<input @bind="login.EmailAddress" placeholder="E-mail" />
-<input @bind="login.Password" placeholder="Password" />
+<input type="email" @bind="login.EmailAddress" placeholder="E-mail" />
+<input type="password" @bind="login.Password" placeholder="Password" />
 <button class="login-btn btn-primary" @onclick="HandleLogin">Submit</button>
 <br><a href="/register">Register account</a>
 
