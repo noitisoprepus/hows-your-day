@@ -34,6 +34,13 @@ namespace HowsYourDayAPI.Controllers
             return Ok(day);
         }
 
+        [HttpGet("day/average")]
+        public async Task<ActionResult<int>> GetAverageRating()
+        {
+            var average = await _dayService.GetAverageRatingAsync();
+            return Ok(average);
+        }
+
         [HttpGet("account/day/status")]
         public async Task<ActionResult<bool>> HasUserPostedToday()
         {

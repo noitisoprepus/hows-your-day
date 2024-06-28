@@ -1,6 +1,7 @@
 using HowsYourDayAPI.Data;
 using HowsYourDayAPI.Interfaces;
 using HowsYourDayAPI.Models;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using Shared.DTOs.Day;
 
@@ -23,6 +24,18 @@ namespace HowsYourDayAPI.Services
         public async Task<Day?> GetDayAsync(int id)
         {
             return await _context.Days.FindAsync(id);
+        }
+
+        public async Task<int> GetAverageRatingAsync()
+        {
+            var postsToday = await _context.Days.Where(d => d.LogDate.Date == DateTime.UtcNow.Date).ToListAsync();
+            
+            double sum = 0.0;
+            foreach(Day post in postsToday)
+                sum += post.Rating;
+            double average = sum / postsToday.Count;
+
+            return (int)Math.Round(average);
         }
 
         public async Task<bool> HasUserPostedTodayAsync(string userId)
