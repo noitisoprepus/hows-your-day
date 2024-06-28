@@ -9,27 +9,36 @@
 
 <h1>Hello there! How's your day?</h1>
 
-@if (alreadyPosted)
+@if (intialized)
 {
-    <p>You have already posted today. Come back tomorrow!</p>
+    @if (alreadyPosted)
+    {
+        <p>You have already posted today. Come back tomorrow!</p>
+    }
+    else
+    {
+        <Ratings Rating="createDayDTO.Rating" RatingChangedEvent="OnRatingChanged"/>
+        <br>
+        <p>@createDayDTO.Rating</p>
+        <input @bind="createDayDTO.Comment" />
+        <br>
+        <button @onclick="SubmitDayEntry">Submit</button>
+    }
 }
 else
 {
-    <Ratings Rating="createDayDTO.Rating" RatingChangedEvent="OnRatingChanged"/>
-    <br>
-    <p>@createDayDTO.Rating</p>
-    <input @bind="createDayDTO.Comment" />
-    <br>
-    <button @onclick="SubmitDayEntry">Submit</button>
+    <div class="spinner-border" role="status" />
 }
 
 @code {
     private CreateDayDTO createDayDTO = new CreateDayDTO();
     private bool alreadyPosted = false;
+    private bool intialized = false;
 
     protected override async Task OnInitializedAsync()
     {
         await HandleFetchUserHasPostedToday();
+        intialized = true;
     }
 
     private async Task HandleFetchUserHasPostedToday()
