@@ -1,7 +1,11 @@
 @page "/register"
+@layout AuthenticationLayout
+
 @using Shared.DTOs.Account
 @using HowsYourDayApp.Services
+
 @inject AuthenticationService AuthenticationService
+@inject NavigationManager NavigationManager
 
 <PageTitle>Register</PageTitle>
 
@@ -23,7 +27,7 @@
         try
         {
             await AuthenticationService.RegisterAsync(register);
-            output = "Welcome! How's your day?";
+            NavigationManager.NavigateTo("login");
         }
         catch (HttpRequestException e)
         {

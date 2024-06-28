@@ -1,7 +1,11 @@
 @page "/login"
+@layout AuthenticationLayout
+
 @using Shared.DTOs.Account
 @using HowsYourDayApp.Services
+
 @inject AuthenticationService AuthenticationService
+@inject NavigationManager NavigationManager
 
 <PageTitle>Login</PageTitle>
 
@@ -14,8 +18,6 @@
 
 <br> <p>@output</p>
 
-<button class="logout-btn btn-secondary" @onclick="HandleLogout">Logout</button>
-
 @code {
     private string output = "";
     private LoginDTO login = new LoginDTO();
@@ -25,24 +27,11 @@
         try
         {
             await AuthenticationService.LoginAsync(login);
-            output = "Welcome back! How's your day?";
+            NavigationManager.NavigateTo("/");
         }
         catch (HttpRequestException e)
         {
             output = "Login failed: " + e.Message;
-        }
-    }
-
-    private async Task HandleLogout()
-    {
-        try
-        {
-            await AuthenticationService.LogoutAsync();
-            output = "You have been logged out.";
-        }
-        catch (HttpRequestException e)
-        {
-            output = "Logout failed: " + e.Message;
         }
     }
 }
