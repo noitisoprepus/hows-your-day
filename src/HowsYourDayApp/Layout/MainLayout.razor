@@ -8,9 +8,9 @@
 <div class="page">
     <main>
         <div class="top-row px-4">
-            <a href ="">Home</a>
-            <a href="/history">History</a>
-            <a @onclick="HandleLogout">Logout</a>
+            <button class="btn btn-primary" @onclick='() => NavigationManager.NavigateTo("/")'>Home</button>
+            <button class="btn btn-primary" @onclick='() => NavigationManager.NavigateTo("/history")'>History</button>
+            <button class="btn btn-secondary" @onclick="HandleLogout">Logout</button>
         </div>
 
         <article class="content px-4">

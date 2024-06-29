@@ -9,12 +9,23 @@
 
 <PageTitle>Login</PageTitle>
 
-<h1>Login Account Page</h1>
-
-<input type="email" @bind="login.EmailAddress" placeholder="E-mail" />
-<input type="password" @bind="login.Password" placeholder="Password" />
-<button class="login-btn btn-primary" @onclick="HandleLogin">Submit</button>
-<br><a href="/register">Register account</a>
+<div class="form-container">
+    <form>
+        <h3>Login Account Page</h3>
+        <div class="form-group">
+            <label class="form-label">Email address</label>
+            <br>
+            <input type="email" class="form-input" @bind="login.EmailAddress" placeholder="Email Address" />
+        </div>
+        <div class="form-group">
+            <label class="form-label">Password</label>
+            <br>
+            <input type="password" class="form-input" @bind="login.Password" placeholder="Password" />
+        </div>
+        <button type="button" class="btn btn-primary" @onclick="HandleLogin">Submit</button>
+        <br><p> Don't have an account yet? <a href="/register">Register account</a></p>
+    </form>
+</div>
 
 <br> <p>@output</p>
 

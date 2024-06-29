@@ -1,0 +1,10 @@
+:root {
+    /* Fonts */
+    --font-family: "Open Sans", sans-serif;
+    /* Colors */
+    --primary-color: #FF6F61;
+    --secondary-color: #FFCCBC;
+    --accent-color: #FFD700;
+    --neutral-color: #F4E1D2;
+    --dark-accent-color: #4B2E2F;
+}
