@@ -4,6 +4,7 @@
 @using HowsYourDayApp.Services
 
 @inject DayService DayService
+@inject NavigationManager NavigationManager
 
 <PageTitle>How's Your Day?</PageTitle>
 
@@ -43,7 +44,16 @@ else
 
     private async Task HandleFetchUserHasPostedToday()
     {
-        alreadyPosted = await DayService.HasUserPostedTodayAsync();
+        var result = await DayService.HasUserPostedTodayAsync();
+        if (!result.IsSuccessStatusCode &&
+            result.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+        {
+            NavigationManager.NavigateTo("/login");
+        }
+        else
+        {
+            alreadyPosted = await result.Content.ReadFromJsonAsync<bool>();
+        }
     }
 
     private void OnRatingChanged(int rating)

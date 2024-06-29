@@ -1,5 +1,4 @@
 using System.Net.Http.Json;
-using HowsYourDayApp.Models;
 using Shared.DTOs.Day;
 
 namespace HowsYourDayApp.Services
@@ -13,16 +12,14 @@ namespace HowsYourDayApp.Services
             _httpClient = httpClientFactory.CreateClient("HowsYourDayApp");
         }
 
-        public async Task<bool> HasUserPostedTodayAsync()
+        public async Task<HttpResponseMessage> HasUserPostedTodayAsync()
         {
-            var response = await _httpClient.GetAsync($"{_httpClient.BaseAddress}account/day/status");
-            response.EnsureSuccessStatusCode();
-            return await response.Content.ReadFromJsonAsync<bool>();
+            return await _httpClient.GetAsync($"{_httpClient.BaseAddress}account/day/status");
         }
 
-        public async Task<IEnumerable<DayEntry>> GetDaysForUserAsync()
+        public async Task<HttpResponseMessage> GetDaysForUserAsync()
         {
-            return await _httpClient.GetFromJsonAsync<IEnumerable<DayEntry>>($"{_httpClient.BaseAddress}account/day");
+            return await _httpClient.GetAsync($"{_httpClient.BaseAddress}account/day"); 
         }
 
         public async Task LogDayAsync(CreateDayDTO dayDTO)

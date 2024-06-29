@@ -1,7 +1,10 @@
 @page "/history"
+
 @using HowsYourDayApp.Models
 @using HowsYourDayApp.Services
+
 @inject DayService DayService
+@inject NavigationManager NavigationManager
 
 <PageTitle>History</PageTitle>
 
@@ -9,7 +12,7 @@
 
 @if (intialized)
 {
-    @if (days.Count().Equals(0))
+    @if (days == null || days.Count().Equals(0))
     {
         <p>You have not logged yet.</p>
     }
@@ -40,6 +43,15 @@ else
 
     private async Task HandleFetchUserDays()
     {
-        days = await DayService.GetDaysForUserAsync();
+        var result = await DayService.GetDaysForUserAsync();
+        if (!result.IsSuccessStatusCode &&
+            result.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+        {
+            NavigationManager.NavigateTo("/login");
+        }
+        else
+        {
+            days = await result.Content.ReadFromJsonAsync<IEnumerable<DayEntry>>();
+        }
     }
 }

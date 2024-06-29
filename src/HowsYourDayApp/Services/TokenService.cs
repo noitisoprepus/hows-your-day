@@ -9,10 +9,10 @@ namespace HowsYourDayApp.Services
             _httpClient = httpClient;
         }
 
-        public async Task TryRefreshAsync()
+        public async Task<HttpResponseMessage> TryRefreshAsync()
         {
             var response = await _httpClient.PostAsync($"{_httpClient.BaseAddress}token/refresh", null);
-            response.EnsureSuccessStatusCode();
+            return response;
         }
     }
 }
