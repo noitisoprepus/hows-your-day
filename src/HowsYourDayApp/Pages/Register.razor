@@ -14,27 +14,37 @@
         <h3>Registration Page</h3>
         <div class="form-group">
             <label class="form-label">Email address</label>
-            <br>
             <input type="email" class="form-input" @bind="register.EmailAddress" placeholder="Email Address" />
         </div>
         <div class="form-group">
             <label class="form-label">Password</label>
-            <br>
             <input type="password" class="form-input" @bind="register.Password" placeholder="Password" />
         </div>
+        <div class="form-group">
+            <label class="form-label">Re-type Password</label>
+            <input type="password" class="form-input" @bind="passwordConfirmation" placeholder="Password Confirmation" />
+        </div>
         <button type="button" class="btn btn-primary" @onclick="HandleRegister">Submit</button>
-        <br><p> Already have an account? <a href="/login">Sign-in instead</a></p>
+        <p class="form-helper"> Already have an account? <a href="/login">Sign-in instead</a></p>
     </form>
 </div>
 
-<br> <p>@output</p>
+<p>@output</p>
 
 @code {
-    private string output = "";
     private RegisterDTO register = new RegisterDTO();
+    private string  passwordConfirmation = "";
+    private string output = "";
 
     private async Task HandleRegister()
     {
+        if (!register.Password.Equals(passwordConfirmation))
+        {
+            // Handle error
+            output = "The passwords do not match. Please try again.";
+            return;
+        }
+
         try
         {
             await AuthenticationService.RegisterAsync(register);
@@ -42,7 +52,7 @@
         }
         catch (HttpRequestException e)
         {
-            output = "Login failed: " + e.Message;
+            output = "Registration failed: " + e.Message;
         }
     }
 }
