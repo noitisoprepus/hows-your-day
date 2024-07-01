@@ -23,13 +23,15 @@
         <button type="button" class="btn btn-primary" @onclick="HandleLogin">Submit</button>
         <p class="form-helper"> Don't have an account yet? <a href="/register">Register account</a></p>
     </form>
+    <div class="alert alert-danger @(showAlert ? "" : "hidden")" role="alert">
+        @output
+    </div>
 </div>
 
-<p>@output</p>
-
 @code {
-    private string output = "";
     private LoginDTO login = new LoginDTO();
+    private string output = "";
+    private bool showAlert = false;
 
     private async Task HandleLogin()
     {
@@ -40,7 +42,19 @@
         }
         catch (HttpRequestException e)
         {
-            output = "Login failed: " + e.Message;
+            if (e.StatusCode == System.Net.HttpStatusCode.BadRequest)
+            {
+                ShowAlert("Please enter a valid email and password.");
+                return;
+            }
+
+            ShowAlert("Login failed: " + e.Message);
         }
+    }
+
+    private void ShowAlert(string alertText)
+    {
+        showAlert = true;
+        output = alertText;
     }
 }

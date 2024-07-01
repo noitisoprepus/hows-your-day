@@ -27,21 +27,22 @@
         <button type="button" class="btn btn-primary" @onclick="HandleRegister">Submit</button>
         <p class="form-helper"> Already have an account? <a href="/login">Sign-in instead</a></p>
     </form>
+    <div class="alert alert-danger @(showAlert ? "" : "hidden")" role="alert">
+        @output
+    </div>
 </div>
-
-<p>@output</p>
 
 @code {
     private RegisterDTO register = new RegisterDTO();
     private string  passwordConfirmation = "";
     private string output = "";
+    private bool showAlert = false;
 
     private async Task HandleRegister()
     {
         if (!register.Password.Equals(passwordConfirmation))
         {
-            // Handle error
-            output = "The passwords do not match. Please try again.";
+            ShowAlert("The passwords do not match. Please try again.");
             return;
         }
 
@@ -52,7 +53,19 @@
         }
         catch (HttpRequestException e)
         {
-            output = "Registration failed: " + e.Message;
+            if (e.StatusCode == System.Net.HttpStatusCode.BadRequest)
+            {
+                ShowAlert("Please enter a valid email and password.");
+                return;
+            }
+
+            ShowAlert("Registration failed: " + e.Message);
         }
+    }
+
+    private void ShowAlert(string alertText)
+    {
+        showAlert = true;
+        output = alertText;
     }
 }

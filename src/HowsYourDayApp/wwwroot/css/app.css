@@ -22,8 +22,6 @@ form {
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     width: 400px;
-    /* width: 100%; */
-    /* box-sizing: border-box; */
 }
 
 .btn {
@@ -35,18 +33,18 @@ form {
     transition: background-color 0.3s ease;
 }
 
-.btn-primary {
-    background-color: #007bff;
-    color: #fff;
-}
+    .btn-primary {
+        background-color: #007bff;
+        color: #fff;
+    }
 
-.btn-primary:hover {
-    background-color: #0056b3;
-}
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
 
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
-}
+    .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+    }
 
 .content {
     padding-top: 1.1rem;
@@ -125,6 +123,10 @@ form {
     .loading-progress-text:after {
         content: var(--blazor-load-percentage-text, "Loading");
     }
+
+.hidden {
+    display: none;
+}
 
 code {
     color: #c02d76;

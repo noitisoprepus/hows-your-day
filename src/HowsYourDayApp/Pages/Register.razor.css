@@ -28,3 +28,9 @@
 .btn {
     width: 100%;
 }
+
+.alert {
+    margin-top: 0.5rem;
+    width: 400px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
