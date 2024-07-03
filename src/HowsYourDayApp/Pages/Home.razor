@@ -33,16 +33,24 @@
             <Ratings Rating="createDayDTO.Rating" RatingChangedEvent="OnRatingChanged"/>
             <textarea placeholder="(Optional) Write your thoughts, reflections, and experiences from today." @bind="createDayDTO.Comment" />
             <button class="btn btn-primary rating-submit-button" @onclick="SubmitDayEntry">Submit</button>
+            <div class="alert alert-danger @(showAlert ? "" : "hidden")" role="alert">
+                @output
+            </div>
         </div>
     }
 }
 
 @code {
     private CreateDayDTO createDayDTO = new CreateDayDTO();
+
     private bool alreadyPosted = false;
     private bool intialized = false;
+    private bool showAlert = false;
+    
     private int avgRating = 0;
     private int usrRating = 0;
+    
+    private string output = "";
 
     protected override async Task OnInitializedAsync()
     {
@@ -96,15 +104,18 @@
         var result = await DayService.LogDayAsync(createDayDTO);
         if (!result.IsSuccessStatusCode)
         {
+            ShowAlert("Unable to submit entry. Please try again.");
             return;
         }
 
         alreadyPosted = true;
         await HandleFetchAverageRatingToday();
         usrRating = createDayDTO.Rating;
+    }
 
-        // Reset
-        createDayDTO.Rating = 0;
-        createDayDTO.Comment = String.Empty;
+    private void ShowAlert(string alertText)
+    {
+        showAlert = true;
+        output = alertText;
     }
 }

@@ -6,7 +6,6 @@ namespace Shared.DTOs.Day
     {
         [Required]
         public int Rating { get; set; }
-        [Required]
-        public string Comment { get; set; } = "";
+        public string? Comment { get; set; } = null;
     }   
 }
