@@ -11,7 +11,7 @@
 
 <div class="form-container">
     <form>
-        <h3>Login Account Page</h3>
+        <p class="header">Login</p>
         <div class="form-group">
             <label class="form-label">Email address</label>
             <input type="email" class="form-input" @bind="login.EmailAddress" placeholder="Email Address" />
@@ -21,7 +21,7 @@
             <input type="password" class="form-input" @bind="login.Password" placeholder="Password" />
         </div>
         <button type="button" class="btn btn-primary" @onclick="HandleLogin">Submit</button>
-        <p class="form-helper"> Don't have an account yet? <a href="/register">Register account</a></p>
+        <p class="form-helper"> Don't have an account yet? <a href="/register">Register</a></p>
     </form>
     <div class="alert alert-danger @(showAlert ? "" : "hidden")" role="alert">
         @output

@@ -1,3 +1,23 @@
+form {
+    background: #fff;
+    padding: 1rem 2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+    width: 350px;
+}
+
+a {
+    text-decoration: none;
+}
+
+.header {
+    font-size: large;
+    font-weight: bold;
+    text-transform: uppercase;
+    text-align: center;
+    margin-bottom: 0.5rem;
+}
+
 .form-group {
     margin-bottom: 1rem;
 }
@@ -18,11 +38,12 @@
 }
 
 .form-helper {
-    margin-top: 0.75rem;
+    margin-top: 1rem;
+    margin-bottom: 0;
     font-size: 1rem;
     color: grey;
     text-align: center;
-    line-height: 0.5;
+    line-height: 1.5;
 }
 
 .btn {
@@ -31,6 +52,6 @@
 
 .alert {
     margin-top: 0.5rem;
-    width: 400px;
+    width: 350px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }

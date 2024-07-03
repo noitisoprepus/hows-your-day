@@ -3,18 +3,6 @@ html, body {
     background-color: var(--light-neutral-color);
 }
 
-form {
-    background: #fff;
-    padding: 2rem;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
-    width: 400px;
-}
-
-p {
-    color: #200C08;
-}
-
 .btn {
     padding: 0.75rem 1.25rem;
     border: none;
