@@ -49,6 +49,14 @@ namespace HowsYourDayAPI.Controllers
             return Ok(hasPostedToday);
         }
 
+        [HttpGet("account/day/today")]
+        public async Task<ActionResult<CreateDayDTO>> GetUserDayToday()
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var dayToday = await _dayService.GetUserDayTodayAsync(userId);
+            return Ok(dayToday);
+        }
+
         [HttpGet("account/day")]
         public async Task<ActionResult<IEnumerable<Day>>> GetDaysForUser()
         {

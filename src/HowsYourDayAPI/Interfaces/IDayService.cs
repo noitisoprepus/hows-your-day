@@ -9,6 +9,7 @@ namespace HowsYourDayAPI.Interfaces
         Task<Day?> GetDayAsync(int id);
         Task<int> GetAverageRatingAsync();
         Task<bool> HasUserPostedTodayAsync(string userId);
+        Task<CreateDayDTO> GetUserDayTodayAsync(string userId);
         Task<IEnumerable<Day>> GetDaysForUserAsync(string userId);
         Task<Day?> AddDayForUserAsync(string userId, CreateDayDTO day);
     }

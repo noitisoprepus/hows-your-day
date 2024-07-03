@@ -22,10 +22,19 @@ namespace HowsYourDayApp.Services
             return await _httpClient.GetAsync($"{_httpClient.BaseAddress}account/day"); 
         }
 
-        public async Task LogDayAsync(CreateDayDTO dayDTO)
+        public async Task<HttpResponseMessage> GetAverageRatingTodayAsync()
         {
-            var response = await _httpClient.PostAsJsonAsync($"{_httpClient.BaseAddress}account/day", dayDTO);
-            response.EnsureSuccessStatusCode();
+            return await _httpClient.GetAsync($"{_httpClient.BaseAddress}day/average");
+        }
+
+        public async Task<HttpResponseMessage> GetUserRatingTodayAsync()
+        {
+            return await _httpClient.GetAsync($"{_httpClient.BaseAddress}account/day/today");
+        }
+
+        public async Task<HttpResponseMessage> LogDayAsync(CreateDayDTO dayDTO)
+        {
+            return await _httpClient.PostAsJsonAsync($"{_httpClient.BaseAddress}account/day", dayDTO);
         }
     }
 }

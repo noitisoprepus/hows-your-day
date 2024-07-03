@@ -12,7 +12,18 @@
 {
     @if (alreadyPosted)
     {
-        <p class="rating-warning">You have already posted today. Come back tomorrow!</p>
+        <div class="summary-container">
+            <p class="rating-warning">You have already logged today.</p>
+            <p class="rating-warning">Come back tomorrow!</p>
+            <div class="summary-user">
+                <p class="rating-user-label">Your Day: </p>
+                <p class="rating-user-value">@usrRating/10</p>
+            </div>
+            <div class="summary-average">
+                <p class="rating-average-label">Today's Average: </p>
+                <p class="rating-average-value">@avgRating/10</p>
+            </div>
+        </div>
     }
     else
     {
@@ -30,10 +41,14 @@
     private CreateDayDTO createDayDTO = new CreateDayDTO();
     private bool alreadyPosted = false;
     private bool intialized = false;
+    private int avgRating = 0;
+    private int usrRating = 0;
 
     protected override async Task OnInitializedAsync()
     {
         await HandleFetchUserHasPostedToday();
+        await HandleFetchAverageRatingToday();
+        await HandleFetchUserRatingToday();
         OnRatingChanged(5);
         intialized = true;
     }
@@ -52,6 +67,25 @@
         }
     }
 
+    private async Task HandleFetchAverageRatingToday()
+    {
+        var result = await DayService.GetAverageRatingTodayAsync();
+        if (result.IsSuccessStatusCode)
+        {
+            avgRating = await result.Content.ReadFromJsonAsync<int>();
+        }
+    }
+
+    private async Task HandleFetchUserRatingToday()
+    {
+        var result = await DayService.GetUserRatingTodayAsync();
+        if (result.IsSuccessStatusCode)
+        {
+            var day = await result.Content.ReadFromJsonAsync<CreateDayDTO>();
+            usrRating = day.Rating;
+        }
+    }
+
     private void OnRatingChanged(int rating)
     {
         createDayDTO.Rating = rating;
@@ -59,8 +93,15 @@
 
     private async Task SubmitDayEntry()
     {
+        var result = await DayService.LogDayAsync(createDayDTO);
+        if (!result.IsSuccessStatusCode)
+        {
+            return;
+        }
+
         alreadyPosted = true;
-        await DayService.LogDayAsync(createDayDTO);
+        await HandleFetchAverageRatingToday();
+        usrRating = createDayDTO.Rating;
 
         // Reset
         createDayDTO.Rating = 0;

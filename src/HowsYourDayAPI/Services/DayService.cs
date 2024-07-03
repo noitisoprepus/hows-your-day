@@ -1,7 +1,6 @@
 using HowsYourDayAPI.Data;
 using HowsYourDayAPI.Interfaces;
 using HowsYourDayAPI.Models;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using Shared.DTOs.Day;
 
@@ -42,6 +41,23 @@ namespace HowsYourDayAPI.Services
         {
             return await _context.Days.AnyAsync(d => d.UserId == userId &&
                 d.LogDate.Date == DateTime.UtcNow.Date);
+        }
+
+        public async Task<CreateDayDTO> GetUserDayTodayAsync(string userId)
+        {
+            var today = DateTime.UtcNow.Date;
+            var day = await _context.Days.FirstOrDefaultAsync(d => d.UserId == userId && d.LogDate.Date == today);
+            if (day == null)
+            {
+                return new CreateDayDTO{
+                    Rating = 0,
+                };
+            }
+
+            return new CreateDayDTO{
+                Rating = day.Rating,
+                Comment = day.Comment
+            };
         }
 
         public async Task<IEnumerable<Day>> GetDaysForUserAsync(string userId)
