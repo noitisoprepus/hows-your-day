@@ -1,16 +1,18 @@
-@foreach (var i in Enumerable.Range(1, 5))
-{
-    <span class="rating-icon" @onclick="() => SetRating(i)">
-        @if (i <= Rating)
-        {
-            <i class="bi bi-star-fill filled"></i>
-        }
-        else
-        {
-            <i class="bi bi-star"></i>
-        }
-    </span>
-}
+<div class="ratings-container">
+    @foreach (var i in Enumerable.Range(1, 10)) // Adjust GetColor range accordingly when changed
+    {
+        <span class="rating-icon" @onclick="() => SetRating(i)">
+            @if (i <= Rating)
+            {
+                <i class="bi bi-circle-fill filled " style="color:@GetColor(i)"></i>
+            }
+            else
+            {
+                <i class="bi bi-circle"></i>
+            }
+        </span>
+    }
+</div>
 
 @code {
     [Parameter]
@@ -18,10 +20,19 @@
 
     [Parameter]
     public EventCallback<int> RatingChangedEvent { get; set; }
-    
+
     void SetRating(int value)
     {
         Rating = value;
         RatingChangedEvent.InvokeAsync(value);
+    }
+
+    int maxLightness = 64;
+    int minLightness = 8;
+
+    string GetColor(int value)
+    {
+        var lightness = minLightness + (maxLightness - minLightness) * (value - 1) / 9;
+        return $"hsl(160, 100%, {lightness}%)";
     }
 }
