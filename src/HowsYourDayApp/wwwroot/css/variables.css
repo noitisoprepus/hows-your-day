@@ -2,9 +2,10 @@
     /* Fonts */
     --font-family: "Open Sans", sans-serif;
     /* Colors */
-    --primary-color: #FF6F61;
-    --secondary-color: #FFCCBC;
-    --accent-color: #FFD700;
-    --neutral-color: #F4E1D2;
+    --primary-color: #592941;
+    --secondary-color: #A28F9D;
+    --accent-color: #0B6E4F;
+    --light-neutral-color: #f7f7f7;
+    --dark-neutral-color: #131200;
     --dark-accent-color: #4B2E2F;
 }

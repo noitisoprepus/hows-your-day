@@ -1,6 +1,7 @@
 .ratings-container {
     display: flex;
     flex-direction: row;
+    margin: 0.25rem 0 0.5rem 0;
 }
 
 .rating-icon {
@@ -10,7 +11,23 @@
     margin-right: 5px;
 }
 
+    .rating-icon:hover {
+        color: var(--primary-color);
+    }
+
 .rating-icon .filled {
     color: var(--accent-color);
     text-shadow: 0 0 3px var(--dark-accent-color);
+}
+
+@media (max-width: 700px) {
+    .rating-icon {
+        font-size: 28px;
+    }
+}
+
+@media (min-width: 701px) {
+    .rating-icon {
+        font-size: 48px;
+    }
 }

@@ -17,11 +17,11 @@
     else
     {
         <div class="form-container">
-            <p class="rating-header">Hello there! How's your day?</p>
+            <p class="rating-header">How's your day?</p>
             <p class="rating-text">@createDayDTO.Rating</p>
             <Ratings Rating="createDayDTO.Rating" RatingChangedEvent="OnRatingChanged"/>
-            <textarea @bind="createDayDTO.Comment" />
-            <button class="btn btn-primary" @onclick="SubmitDayEntry">Submit</button>
+            <textarea placeholder="(Optional) Write your thoughts, reflections, and experiences from today." @bind="createDayDTO.Comment" />
+            <button class="btn btn-primary rating-submit-button" @onclick="SubmitDayEntry">Submit</button>
         </div>
     }
 }
