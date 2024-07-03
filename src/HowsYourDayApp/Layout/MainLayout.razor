@@ -5,15 +5,21 @@
 @inject AuthenticationService AuthenticationService
 @inject NavigationManager NavigationManager
 
+<nav class="navbar navbar-expand-lg">
+    <a class="navbar-brand" href="#">HowsYourDay</a>
+    <div class="navbar-buttons">
+        @* <button class="btn btn-link nav-link" @onclick='() => NavigationManager.NavigateTo("/history")'>
+            <i class="bi bi-clock-history"></i>
+        </button> *@
+        <button class="btn btn-link nav-link" @onclick="HandleLogout">
+            <i class="bi bi-box-arrow-right"></i>
+        </button>
+    </div>
+</nav>
+
 <div class="page">
     <main>
-        <div class="top-row px-4">
-            <button class="btn btn-primary" @onclick='() => NavigationManager.NavigateTo("/")'>Home</button>
-            <button class="btn btn-primary" @onclick='() => NavigationManager.NavigateTo("/history")'>History</button>
-            <button class="btn btn-secondary" @onclick="HandleLogout">Logout</button>
-        </div>
-
-        <article class="content px-4">
+        <article class="content">
             @Body
         </article>
     </main>
