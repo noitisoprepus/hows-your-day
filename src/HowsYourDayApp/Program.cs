@@ -11,9 +11,19 @@ builder.RootComponents.Add<HeadOutlet>("head::after");
 builder.Services.AddTransient<CookieHandler>();
 builder.Services.AddTransient<RefreshHandler>();
 
+string baseAddress;
+if (builder.HostEnvironment.IsDevelopment())
+{
+    baseAddress = "https://localhost:7274/";
+}
+else
+{
+    baseAddress = "http://localhost:5000/";
+}
+
 builder.Services.AddHttpClient("HowsYourDayApp", client =>
 {
-    client.BaseAddress = new Uri("https://localhost:7274/");
+    client.BaseAddress = new Uri(baseAddress);
 })
     .AddHttpMessageHandler<CookieHandler>()
     .AddHttpMessageHandler<RefreshHandler>();
@@ -21,7 +31,7 @@ builder.Services.AddHttpClient("HowsYourDayApp", client =>
 // Register the HttpClient for TokenService
 builder.Services.AddHttpClient<TokenService>(client =>
 {
-    client.BaseAddress = new Uri("https://localhost:7274/");
+    client.BaseAddress = new Uri(baseAddress);
 })
     .AddHttpMessageHandler<CookieHandler>();
 

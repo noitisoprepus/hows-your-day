@@ -1,0 +1,14 @@
+.git
+.github/
+.gitignore
+
+.devcontainer/
+.vscode/
+
+.secure/
+.env
+
+*.docx
+**/*.docx
+*.zip
+**/*.zip
