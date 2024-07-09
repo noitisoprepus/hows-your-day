@@ -40,15 +40,9 @@
             await AuthenticationService.LoginAsync(login);
             NavigationManager.NavigateTo("/");
         }
-        catch (HttpRequestException e)
+        catch (HttpRequestException)
         {
-            if (e.StatusCode == System.Net.HttpStatusCode.BadRequest)
-            {
-                ShowAlert("Please enter a valid email and password.");
-                return;
-            }
-
-            ShowAlert("Login failed: " + e.Message);
+            ShowAlert("Please enter a valid email and password.");
         }
     }
 
