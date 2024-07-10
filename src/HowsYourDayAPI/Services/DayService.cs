@@ -20,9 +20,9 @@ namespace HowsYourDayAPI.Services
             return await _context.Days.ToListAsync();
         }
 
-        public async Task<Day?> GetDayAsync(int id)
+        public async Task<Day?> GetDayAsync(Guid dayId)
         {
-            return await _context.Days.FindAsync(id);
+            return await _context.Days.FindAsync(dayId);
         }
 
         public async Task<int> GetAverageRatingAsync()

@@ -6,7 +6,7 @@ namespace HowsYourDayAPI.Interfaces
     public interface IDayService
     {
         Task<IEnumerable<Day>> GetDaysAsync();
-        Task<Day?> GetDayAsync(int id);
+        Task<Day?> GetDayAsync(Guid dayId);
         Task<int> GetAverageRatingAsync();
         Task<bool> HasUserPostedTodayAsync(string userId);
         Task<CreateDayDTO> GetUserDayTodayAsync(string userId);

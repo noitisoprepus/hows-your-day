@@ -26,7 +26,7 @@ namespace HowsYourDayAPI.Controllers
         }
 
         [HttpGet("day/{id}")]
-        public async Task<ActionResult<Day>> GetDay(int id)
+        public async Task<ActionResult<Day>> GetDay(Guid id)
         {
             var day = await _dayService.GetDayAsync(id);
             if (day == null) return NotFound();
