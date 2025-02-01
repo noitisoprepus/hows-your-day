@@ -11,7 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HowsYourDayApp", "src\HowsY
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared", "src\Shared\Shared.csproj", "{8454EEEF-DC9F-4216-9621-6DA29FEB99C4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HowsYourDayTest", "HowsYourDayTest\HowsYourDayTest.csproj", "{0478CBD0-6059-4496-94D1-E5AA4012C980}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HowsYourDayTest", "src\HowsYourDayTest\HowsYourDayTest.csproj", "{0478CBD0-6059-4496-94D1-E5AA4012C980}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
